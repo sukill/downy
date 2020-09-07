@@ -1,0 +1,3 @@
+---
+# defaults file for orderer
+FABRIC_CFG_PATH: /opt/hyperledger/fabric/orderer

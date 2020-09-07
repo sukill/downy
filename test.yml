@@ -1,0 +1,16 @@
+---
+- hosts: ca
+  gather_facts: false
+  roles:
+    - fabric-ca-server
+
+- hosts: peer
+  gather_facts: false
+  roles:
+    - peer
+
+- hosts: orderer
+  gather_facts: false
+  roles:
+    - orderer
+  

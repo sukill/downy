@@ -1,0 +1,5 @@
+---
+- hosts: peer
+  remote_user: root
+  roles:
+    - peer

@@ -1,0 +1,4 @@
+---
+# tasks file for config_builder
+- name: build core.yaml
+  include_tasks: "start.yml"

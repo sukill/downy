@@ -1,0 +1,4 @@
+---
+# tasks file for fabric-ca-server
+- name: start fabric ca
+  include_tasks: "start.yml"

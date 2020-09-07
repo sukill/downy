@@ -1,0 +1,241 @@
+all:
+  children:
+    ca:
+      hosts:
+        ca.doro.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          FABRIC_CA_HOME: /opt/hyperledger/fabric-ca/ca.doro.com
+          config:
+            port: 7054
+            tls:
+              enabled: true
+              certfile: tlsca/tlsca.doro.com-cert.pem
+              keyfile: tlsca/key.pem
+            ca:
+              name: ca.doro.com
+              keyfile: key.pem
+              certfile: ca.doro.com-cert.pem
+            csr:
+              cn: ca.doro.com
+              names:
+                C: US
+                ST: North Carolina
+                L:
+                O: Hyperledger
+                OU: Fabric
+              hosts:
+                - ca.doro.com
+            operations:
+              listenAddress: ca.doro.com:9443
+        ca.hana.com:
+          ansible_host: 192.168.66.102
+          ansible_user: root
+          FABRIC_CA_HOME: /opt/hyperledger/fabric-ca/ca.hana.com
+          config:
+            port: 7054
+            tls:
+              enabled: true
+              certfile: tlsca/tlsca.hana.com-cert.pem
+              keyfile: tlsca/key.pem
+            ca:
+              name: ca.hana.com
+              keyfile: key.pem
+              certfile: ca.hana.com-cert.pem
+            csr:
+              cn: ca.hana.com
+              names:
+                C: US
+                ST: North Carolina
+                L:
+                O: Hyperledger
+                OU: Fabric
+              hosts:
+                - ca.hana.com
+            operations:
+              listenAddress: ca.hana.com:9443
+        ca.minj.com:
+          ansible_host: 192.168.66.103
+          ansible_user: root
+          FABRIC_CA_HOME: /opt/hyperledger/fabric-ca/ca.minj.com
+          config:
+            port: 7054
+            tls:
+              enabled: true
+              certfile: tlsca/tlsca.minj.com-cert.pem
+              keyfile: tlsca/key.pem
+            ca:
+              name: ca.minj.com
+              keyfile: key.pem
+              certfile: ca.minj.com-cert.pem
+            csr:
+              cn: ca.minj.com
+              names:
+                C: US
+                ST: North Carolina
+                L:
+                O: Hyperledger
+                OU: Fabric
+              hosts:
+                - ca.minj.com
+            operations:
+              listenAddress: ca.minj.com:9443
+        ca.ordererorg.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          FABRIC_CA_HOME: /opt/hyperledger/fabric-ca/ca.orgorderer.com
+          config:
+            port: 6054
+            tls:
+              enabled: true
+              certfile: tlsca/tlsca.orgorderer.com-cert.pem
+              keyfile: tlsca/key.pem
+            ca:
+              name: ca.orgorderer.com
+              keyfile: key.pem
+              certfile: ca.orgorderer.com-cert.pem
+            csr:
+              cn: ca.orgorderer.com
+              names:
+                C: US
+                ST: North Carolina
+                L:
+                O: Hyperledger
+                OU: Fabric
+              hosts:
+                - ca.orgorderer.com                
+            operations:
+              listenAddress: ca.orgorderer.com:9443
+    peer:
+      hosts:
+        peer0.doro.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            peer:
+              id: peer0.doro.com
+              networkId: dev
+              # listenAddress vs address
+              # https://lists.hyperledger.org/g/fabric/topic/70163919#7634
+              listenAddress: 0.0.0.0:7051 # bind address
+              address: 0.0.0.0:7051 # endpoint to other peers
+              gossip:
+                bootstrap: 127.0.0.1:7051
+              tls:
+                enabled: true
+              localMspId: DoroMSP
+            operation:
+              listenAddress: peer0.doro.com:9443
+        peer0.hana.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            peer:
+              id: peer0.hana.com
+              networkId: dev
+              # listenAddress vs address
+              # https://lists.hyperledger.org/g/fabric/topic/70163919#7634
+              listenAddress: 0.0.0.0:7051 # bind address
+              address: 0.0.0.0:7051 # endpoint to other peers
+              gossip:
+                bootstrap: 127.0.0.1:7051
+              tls:
+                enabled: true
+              localMspId: HanaMSP
+            operation:
+              listenAddress: peer0.hana.com:9443
+        peer0.minj.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            peer:
+              id: peer0.minj.com
+              networkId: dev
+              # listenAddress vs address
+              # https://lists.hyperledger.org/g/fabric/topic/70163919#7634
+              listenAddress: 0.0.0.0:7051 # bind address
+              address: 0.0.0.0:7051 # endpoint to other peers
+              gossip:
+                bootstrap: 127.0.0.1:7051
+              tls:
+                enabled: true
+              localMspId: MinjMSP
+            operation:
+              listenAddress: peer0.minj.com:9443                            
+    orderer:
+      hosts:
+        orderer0.orgorderer.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            General:
+              ListenAddress: orderer0.orgorderer.com
+              ListenPort: 7050
+              TLS:
+                Enabled: true
+                PrivateKey: tls/server.key
+                Certificate: tls/server.crt
+                RootCAs:
+                  - tls/ca.crt
+              Cluster:
+                ClientCertificate: tls/server.crt
+                ClientPrivateKey: tls/server.key
+                ListenPort: 7056
+                ListenAddress: orderer0.orgorderer.com
+                ServerCertificate: tls/server.crt
+                ServerPrivateKey: tls/server.key
+              LocalMSPID: OrdererMSP
+            Operations:
+              ListenAddress: 127.0.0.1:8443
+        orderer1.orgorderer.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            General:
+              ListenAddress: orderer1.orgorderer.com
+              ListenPort: 7050
+              TLS:
+                Enabled: true
+                PrivateKey: tls/server.key
+                Certificate: tls/server.crt
+                RootCAs:
+                  - tls/ca.crt
+              Cluster:
+                ClientCertificate: tls/server.crt
+                ClientPrivateKey: tls/server.key
+                ListenPort: 7056
+                ListenAddress: orderer0.orgorderer.com
+                ServerCertificate: tls/server.crt
+                ServerPrivateKey: tls/server.key
+              LocalMSPID: OrdererMSP
+            Operations:
+              ListenAddress: 127.0.0.1:8443
+        orderer2.orgorderer.com:
+          ansible_host: 192.168.66.101
+          ansible_user: root
+          ca_address: 192.168.66.101
+          config:
+            General:
+              ListenAddress: orderer2.orgorderer.com
+              ListenPort: 7050
+              TLS:
+                Enabled: true
+                PrivateKey: tls/server.key
+                Certificate: tls/server.crt
+                RootCAs:
+                  - tls/ca.crt
+              Cluster:
+                ClientCertificate: tls/server.crt
+                ClientPrivateKey: tls/server.key
+                ListenPort: 7056
+                ListenAddress: orderer2.orgorderer.com
+                ServerCertificate: tls/server.crt
+                ServerPrivateKey: tls/server.key
+              LocalMSPID: OrdererMSP
+            Operations:
+              ListenAddress: 127.0.0.1:8443              

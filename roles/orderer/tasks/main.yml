@@ -1,0 +1,4 @@
+---
+# tasks file for orderer
+- name: build orderer.yaml
+  include_tasks: "start.yml"

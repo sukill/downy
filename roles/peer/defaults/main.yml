@@ -1,0 +1,3 @@
+---
+# defaults file for config_builder
+FABRIC_CFG_PATH: /opt/hyperledger/fabric/

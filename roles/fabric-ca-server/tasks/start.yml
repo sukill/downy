@@ -1,0 +1,10 @@
+- name: Create FABRIC_CA_HOME if it does not exist
+  file:
+    path: "{{ FABRIC_CA_HOME }}"
+    state: directory
+    mode: '0755'
+
+- name: build fabric-ca-server-config.yaml
+  template:
+    src: fabric-ca-server-config.yaml.jinja2
+    dest: "{{ FABRIC_CA_HOME | mandatory }}/fabric-ca-server-config.yaml"

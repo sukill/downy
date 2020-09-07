@@ -1,0 +1,10 @@
+- name: Create FABRIC_CFG_PATH if it does not exist
+  file:
+    path: "{{ FABRIC_CFG_PATH }}"
+    state: directory
+    mode: '0755'
+
+- name: build core.yaml
+  template:
+    src: orderer.yaml.jinja2
+    dest: "{{ FABRIC_CFG_PATH | mandatory }}"
